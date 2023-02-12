@@ -48,9 +48,13 @@ Can you save Ramses from financial disaster?
 
 </tw-passagedata><tw-passagedata pid="2" name="Get a job" tags="job" position="1100,350" size="100,100">(set: $job = true)
 
-With no pity for Ramses, you take him straight to the UNC career services to find himself some work! (if: $bank is &#39;true&#39;)[You already set Ramses&#39; bank accounts up, which means the money can be sent straight there via Direct Deposit. It&#39;s the most popular way to be paid since it&#39;s paperless, quick, and entirely digital. Other jobs offer to pay you via check, which will arrive in the mail sometime after pay day. 
+With no pity for Ramses, you take him straight to the UNC career services to find himself some work! (if: $checkings is &#39;true&#39;)[You already set Ramses&#39; checking account up, which means the money can be sent straight there via Direct Deposit. It&#39;s the most popular way to be paid since it&#39;s paperless, quick, and entirely digital. Other jobs offer to pay you via check, which will arrive in the mail sometime after pay day. 
 
-A few jobs might try to pay you in pizza. You tell Ramses to stay far away from those jobs. No long-term good comes out of being paid in pizza.] (else:)[
+A few jobs might try to pay you in pizza. You tell Ramses to stay far away from those jobs. No long-term good comes out of being paid in pizza.
+
+(if: $savings is false or $investment is false) [[However, it seems like there might be more to be done at the bank.|Go to a bank]]
+
+(if: $loan is false) [[Maybe instead we should get Ramses... more money. Take out a loan!|Take out a loan - easy money!]]] (else:)[
 
 However, it turns out Ramses doesn&#39;t have any bank accounts. 
 
@@ -60,7 +64,7 @@ Direct Deposit links your checkings account directly to their payroll systems. I
 
 A few jobs might try to pay you in pizza. You tell Ramses to stay far away from those jobs. No long-term good comes out of being paid in pizza.
 
-[[Have Ramses Be Paid In Check]]
+[[Have Ramses be paid in check]]
 
 [[Go to a bank]] 
 
@@ -85,6 +89,8 @@ A few jobs might try to pay you in pizza. You tell Ramses to stay far away from 
 (if: $investment is true)[Ramses already has an investment account.] (else:)[[Open an investment account]]
 
 (if:visits &gt; 1 and $bank is true and $credit is false) [[Enough about real money, let&#39;s talk borrowed. Time for a credit card!|Get a credit card]] 
+
+(if:visits &gt; 1 and $bank is true and $loan is false) [[We&#39;ve got a bank account set up, let&#39;s get quick money to put it in!|Take out a loan - easy money!]]
 
 (if:visits &gt; 1 and $bank is true and $job is false) [[Maybe it&#39;s a good idea to get a job before dealing with the bank. You need money before locking it away!|Get a job]] 
 
@@ -128,37 +134,38 @@ What matters with investment accounts is a regular contribution. Unless you micr
 [[Back to the bank|Go to a bank]] 
 
 [[My work here is done.|the end]]
-</tw-passagedata><tw-passagedata pid="9" name="Have Ramses Be Paid In Check" tags="" position="1275,475" size="100,100">Checks are going out of fashion, but this ram seems to be a traditionalist - being born in 1924 can have that effect. He can use checks to pay rent and other services, and are more secure than cash. It might even curb his bagel habits... 
+</tw-passagedata><tw-passagedata pid="9" name="Have Ramses be paid in check" tags="" position="1275,475" size="100,100">Checks are going out of fashion, but this ram seems to be a traditionalist - being born in 1924 can have that effect. He can use checks to pay rent and other services, and are more secure than cash. It might even curb his spending habits... 
 
-Of course, while Ramses can cash in the check for actual cash, it&#39;s more secure to deposit it in an account.
+Of course, while Ramses can cash in the check for actual cash, it&#39;s more secure to deposit it in an account. 
 (if:$checkings is true and ($savings is false or $investment is false))[Luckily, you already thought of this. Ramses goes and deposits his first paycheck in his new account! Woo! [[However, there seems to still be stuff left to do at the bank...|Go to a bank]]
 
 [[But I don&#39;t care! My work here is done.|the end]] ] (else-if: $bank is true and $checkings is false) [Ramses went to a bank account, but doesn&#39;t have a checkings account. What an oversight!
 
 [[Go to a bank]] 
 
+(if: $loan is false) [[The tune of more money sounds great. Take out a loan!|Take out a loan - easy money!]]
 
 [[But I don&#39;t care! My work here is done.|the end]] 
 
 ] 
 (else-if:$bank is not true)[Ramses doesn&#39;t have a bank account though! Maybe you should go and make one.
 
-
 [[Go to a bank]] 
 
+(if: $budget is false) [[Honestly, before we consider a bank, shouldn&#39;t Ramses start a budget first?|Get budgeting]]
+
+(if: $loan is false) [[What about... MORE money? Take out a loan!|Take out a loan - easy money!]]
 
 [[But I don&#39;t care! My work here is done.|the end]] 
-
-
-(if: $budget is false) [[Honestly, before we consider a bank, shouldn&#39;t Ramses start a budget first?|Get budgeting]]
 
 ]
 
 (else:)[[My work here is done.|the end]] 
 
-</tw-passagedata><tw-passagedata pid="10" name="Of course I can!" tags="" position="650,375" size="100,100">(if:visits &gt; 1) [](else-if:$quitter is true and visits is 1)[Wow, you really know how to exploit a situation! But Ramses definitely needs all the help he can get...](else:)[Great!] So glad we have a financial genius like yourself onboard! With your help, we can definitely straighten out Ramses&#39; finances.
+</tw-passagedata><tw-passagedata pid="10" name="Of course I can!" tags="" position="650,375" size="100,100">(if:visits &gt; 1) [What should Ramses do?](else:)[
+(if:$quitter is true and visits is 1)[Wow, you really know how to exploit a situation! But Ramses definitely needs all the help he can get...](else:)[Great!] So glad we have a financial genius like yourself onboard! With your help, we can definitely straighten out Ramses&#39; finances.
 
-What should Ramses do?
+What should Ramses do?]
 
 (if:$budget is true)[You already took care of the critical budgeting.](else:)[[Get budgeting]]
 
@@ -197,13 +204,13 @@ Loans, unlike scholarships or grants, have to be repaid. They have interest rate
 
 Where did Ramses go?!
 
-After a moment you spy him running down to Bojangles, to spend money he doesn&#39;t really have! He left you a note saying: I totally paid attention to my FAFSA app, so I know all about loans. Peace out! 
+After a moment you spy him running down to Bojangles, to spend loaned money he doesn&#39;t really have! He left you a note saying: I totally paid attention to my FAFSA app, so I know all about loans. Peace out! 
 
 &lt;img src=&quot;https://cdn.discordapp.com/attachments/776230897342480430/1074186974702870638/image.png&quot; alt=&quot;Ramses happily drinks something in a Bojangles cup. A question mark floats besides his head.&quot;&gt;
 
-[[Chase After Him]]
+[[Chase after him!]]
 
-[[Let Him Spend The Money!]]
+[[Let him spend the money!]]
 
 ]
 ]
@@ -215,35 +222,66 @@ You, Carolina&#39;s premier financial advisor and wise in all things monetary, s
 [[Let&#39;s do this!|Of course I can!]]</tw-passagedata><tw-passagedata pid="14" name="the end" tags="" position="925,1150" size="100,100">Your time as a financial advisor to Ramses has come to an end! Lets see how you did... 
 
 
-[[Results]]</tw-passagedata><tw-passagedata pid="15" name="Results" tags="" position="975,975" size="100,100">(if: $job is true and $checkings is true and $savings is true and $investment is true and $credit is true and $budget is true and $loan is false)[Wow! You set Ramses up for life. He has a job as a stable source of income, a checking account to be the lynchpin of his finances, a savings account for short-term goals, an investment account for long-term goals, and a credit card to use for purchases - as well as the budgeting knowledge to guide him! 
+[[Results]]</tw-passagedata><tw-passagedata pid="15" name="Results" tags="" position="975,975" size="100,100">{(if: $job is true and $checkings is true and $savings is true and $investment is true and $credit is true and $budget is true and $loan is false)[Wow! You set Ramses up for life. He has a job as a stable source of income, a checking account to be the lynchpin of his finances, a savings account for short-term goals, an investment account for long-term goals, and a credit card to use for purchases - as well as the budgeting knowledge to guide him! 
 
 Ramses&#39; personal finance goals will shift and change throughout his life, but you&#39;ve defintely given him a solid base! (if:$quitter is false)[Plus, Ramses is so thankful to you that he offers you free courtside seats to all Duke games, for life!]
 
-&lt;img src=&quot;https://cdn.discordapp.com/attachments/776230897342480430/1074183196771631114/image.png&quot; alt=&quot;Ramses grins at you. His eyes are money signs, and he&#39;s giving you the thumbs up of a job well done.&quot;&gt;](else-if: $job is true and $checkings is true and $savings is true and $investment is true and $credit is true and $budget is true and $loan is true)[Wow! You set Ramses up for life. He has a job as a stable source of income, a checking account to be the lynchpin of his finances, a savings account for short-term goals, an investment account for long-term goals, and a credit card to use for purchases - as well as the budgeting knowledge to guide him! There&#39;s also that loan to consider, but surely he can manage it now.
+&lt;img src=&quot;https://cdn.discordapp.com/attachments/776230897342480430/1074183196771631114/image.png&quot; alt=&quot;Ramses grins at you. His eyes are money signs, and he&#39;s giving you the thumbs up of a job well done.&quot;&gt;]
+
+(else-if: $job is true and $checkings is true and $savings is true and $investment is true and $credit is true and $budget is true and $loan is true)[Wow! You set Ramses up for life. He has a job as a stable source of income, a checking account to be the lynchpin of his finances, a savings account for short-term goals, an investment account for long-term goals, and a credit card to use for purchases - as well as the budgeting knowledge to guide him! There&#39;s also that loan to consider, but surely he can manage it now.
 
 Ramses&#39; personal finance goals will shift and change throughout his life, but you&#39;ve defintely given him a solid base! (if:$quitter is false)[Plus, Ramses is so thankful to you that he offers you free courtside seats to all Duke games, for life!]
 
-&lt;img src=&quot;https://cdn.discordapp.com/attachments/776230897342480430/1074183196771631114/image.png&quot; alt=&quot;Ramses grins at you. His eyes are money signs, and he&#39;s giving you the thumbs up of a job well done.&quot;&gt;](else-if: $checkings is true and $savings is true and $investment is true and $job is false and $credit is false and $budget is false and $loan is false) [Well, you certainly set Ramses&#39; bank accounts up pretty well! Unfortunately, without a source of income, budgeting knowledge, or credit to borrow whilst he gets a job, those ten dollars aren&#39;t going to get him very far...](else-if: $savings is true and $investment is true and $checkings is false and $job is false and $credit is false and $budget is false and $loan is false) [Ramses really needed that help with his savings, didn&#39;t he? He&#39;s got things set up for the future, but the day-to-day seems to be lacking. How&#39;s he going to buy boba tea every week(day...) without a job or a checkings account to manage his money in?](else-if: $savings is true and $investment is false and $checkings is false and $job is false and $credit is false and $budget is false and $loan is false) [Ramses has a savings account now! Woo! All his short term goals are on track, but he&#39;s missing long-term planing. Also, how exactly did you get him a savings account without a job or a checkings account first? Surely it isn&#39;t a parental guidance account...](else-if: $savings is false and $investment is true and $checkings is false and $job is false and $credit is false and $budget is false and $loan is false) [Ramses is set for retirement, but first he has to get there. You sure hope someone teaches him how to budget soon, and helps him get a job, and maybe opens up a more usuable bank account for him as well.](else-if: $job is true and $checkings is true and $savings is false and $investment is false and $credit is false and $budget is false and $loan is false) [Ramses has a job and a checkings account to deposit his money into! He&#39;s missing saving and investments accounts for long term planing, and a credit card for purchases in-between paychecks, but he has a solid base!](else-if: $job is true and $credit is false and $investment is false and $checkings is false and $savings is false and $budget is false and $loan is false) [Ramses has a job! However, he doesn&#39;t have any bank accounts to manage or save his income, or a credit card for puchases in-between paychecks. He&#39;s on the right track, but he defintely needs more help](else-if: $budget is true and $job is false and $credit is false and $investment is false and $checkings is false and $savings is false and $loan is false)[Ramses can budget now, but ten dollars isn&#39;t going to last him long without a job. Not to mention he can&#39;t invest, save up his dollars, or get paid easily via bank accounts. Let&#39;s not even go into credit options...](else-if: $job is false and $checkings is true and $savings is false and $investment is false and $credit is false and $budget is false and $loan is false)[So Ramses has a checking account. No job though, how&#39;d you get the bank to accept that? Not to mention everything else. While you&#39;re at the bank, next time ask about savings accounts too.](else-if: $job is false and $checkings is true and $savings is false and $investment is false and $credit is true and $budget is true and $loan is true)[So, you took out a loan. And then more credit on top of it. Was that really smart? Well, at least Ramses knows how to budget now...](else-if: $job is false and $checkings is true and $savings is false and $investment is false and $credit is true and $budget is true and $loan is true)[So, you got Ramses a credit card but nothing else. His amazing credit score surely had something to do with how that worked out. But was that really smart? Well, at least Ramses knows how to budget now...](else-if: $job is false and $checkings is true and $savings is false and $investment is false and $credit is true and $budget is true and $loan is true)[So, you got Ramses a credit card but nothing else. His amazing credit score surely had something to do with how that worked out. But was that really smart? Well, I&#39;ll leave it up to you.](else-if: $loan is true and $job is false and $checkings is false and $savings is false and $investment is false and $credit is false and $budget is false) [Word on the streets is that Ramses is in big debt now. He&#39;s trying out this new monetization scheme where you pay $1 for a sip of Old Well water ($2 without the lead). It might be worth it for the 4.0 GPA, but can you really live with this on your conscience?] (else:) [I&#39;m not really sure how you got here without even slightly fixing Ramses&#39; finances. I&#39;m impressed!]
+&lt;img src=&quot;https://cdn.discordapp.com/attachments/776230897342480430/1074183196771631114/image.png&quot; alt=&quot;Ramses grins at you. His eyes are money signs, and he&#39;s giving you the thumbs up of a job well done.&quot;&gt;]
 
+(else-if: $checkings is true and $savings is true and $investment is true and $job is false and $credit is false and $budget is false and $loan is false) [Well, you certainly set Ramses&#39; bank accounts up pretty well! Unfortunately, without a source of income, budgeting knowledge, or credit to borrow whilst he gets a job, those ten dollars aren&#39;t going to get him very far...]
 
+(else-if: $savings is true and $investment is true and $checkings is false and $job is false and $credit is false and $budget is false and $loan is false) [Ramses really needed that help with his savings, didn&#39;t he? He&#39;s got things set up for the future, but the day-to-day seems to be lacking. How&#39;s he going to buy boba tea every week(day...) without a job or a checkings account to manage his money in?]
+
+(else-if: $savings is true and $investment is false and $checkings is false and $job is false and $credit is false and $budget is false and $loan is false) [Ramses has a savings account now! Woo! All his short term goals are on track, but he&#39;s missing long-term planing. Also, how exactly did you get him a savings account without a job or a checkings account first? Surely it isn&#39;t a parental guidance account...]
+
+(else-if: $savings is false and $investment is true and $checkings is false and $job is false and $credit is false and $budget is false and $loan is false) [Ramses is set for retirement, but first he has to get there. You sure hope someone teaches him how to budget soon, and helps him get a job, and maybe opens up a more usuable bank account for him as well.]
+
+(else-if: $job is true and $checkings is true and $savings is false and $investment is false and $credit is false and $budget is false and $loan is false) [Ramses has a job and a checkings account to deposit his money into! He&#39;s missing saving and investments accounts for long term planing, and a credit card for purchases in-between paychecks, but he has a solid base!]
+
+(else-if: $job is true and $credit is false and $investment is false and $checkings is false and $savings is false and $budget is false and $loan is false) [Ramses has a job! However, he doesn&#39;t have any bank accounts to manage or save his income, or a credit card for puchases in-between paychecks. He&#39;s on the right track, but he defintely needs more help]
+
+(else-if: $budget is true and $job is false and $credit is false and $investment is false and $checkings is false and $savings is false and $loan is false)[Ramses can budget now, but ten dollars isn&#39;t going to last him long without a job. Not to mention he can&#39;t invest, save up his dollars, or get paid easily via bank accounts. Let&#39;s not even go into credit options...]
+
+(else-if: $job is false and $checkings is true and $savings is false and $investment is false and $credit is false and $budget is false and $loan is false)[So Ramses has a checking account. No job though, how&#39;d you get the bank to accept that? Not to mention everything else. While you&#39;re at the bank, next time ask about savings accounts too.]
+
+(else-if: $job is false and $checkings is true and $savings is false and $investment is false and $credit is true and $budget is true and $loan is true)[So, you took out a loan. And then more credit on top of it. Was that really smart? Well, at least Ramses knows how to budget now...]
+
+(else-if: $job is false and $checkings is true and $savings is false and $investment is false and $credit is true and $budget is true and $loan is true)[So, you got Ramses a credit card but nothing else. His amazing credit score surely had something to do with how that worked out. But was that really smart? Well, at least Ramses knows how to budget now...]
+
+(else-if: $job is false and $checkings is true and $savings is false and $investment is false and $credit is true and $budget is true and $loan is true)[So, you got Ramses a credit card but nothing else. His amazing credit score surely had something to do with how that worked out. But was that really smart? Well, I&#39;ll leave it up to you.]
+
+(else-if: $loan is true and $job is false and $checkings is false and $savings is false and $investment is false and $credit is false and $budget is false) [Word on the streets is that Ramses is in big debt now. He&#39;s trying out this new monetization scheme where you pay $1 for a sip of Old Well water ($2 without the lead). It might be worth it for the 4.0 GPA, but can you really live with this on your conscience?] 
+
+(else:) [I&#39;m not really sure how you got here without really fixing Ramses&#39; finances. I&#39;m impressed!]
+
+}
 The end.
 
 [[Turn the Bell Tower&#39;s clock back to the start?|Untitled Passage]]
 
-</tw-passagedata><tw-passagedata pid="16" name="Chase After Him" tags="" position="100,375" size="100,100">You haul Ramses out of the food line. This is the problem with loans! If you aren&#39;t careful, you&#39;ll spend all the money without thinking where it should go. 
+</tw-passagedata><tw-passagedata pid="16" name="Chase after him!" tags="" position="100,375" size="100,100">You haul Ramses out of the food line. This is the problem with loans! If you aren&#39;t careful, you&#39;ll spend all the money without thinking where it should go. 
 
 Let&#39;s try again, shall we?
 
-[[Get a job]]
+(if: $job is false)[[Get a job]]
 
-[[Go to a bank]]
+(if: $checkings or $savings or $investment is false)[[Go to a bank]]
 
-[[Get a credit card]]
-</tw-passagedata><tw-passagedata pid="17" name="Let Him Spend The Money!" tags="" position="300,375" size="100,100">You watch as Ramses spends all his money on food. Did he pay no attention to your informative lecture? Rams are a bit hard-headed, but this is too much. 
+(if: $credit is false)[[Get a credit card]]
 
-[[Don&#39;t Give Up Yet|Chase After Him]]
+(if: $budget is false)[[Get budgeting]]
 
-[[You Tried|the end]]</tw-passagedata><tw-passagedata pid="18" name="Check Ramses&#39; Credit Score" tags="" position="0,800" size="100,100">(set: $credit = true)
+[[My work here is done.|the end]] </tw-passagedata><tw-passagedata pid="17" name="Let him spend the money!" tags="" position="300,375" size="100,100">You watch as Ramses spends all his money on food. Did he pay no attention to your informative lecture? Rams are a bit hard-headed, but this is too much. 
+
+[[Don&#39;t give up yet!|Chase after him!]]
+
+[[You tried.|the end]]</tw-passagedata><tw-passagedata pid="18" name="Check Ramses&#39; Credit Score" tags="" position="0,800" size="100,100">(set: $credit = true)
 
 Credit scores are like ratings for your finances. They range from 300 to 850, and the higher the better. The higher your credit score is, the better your finance rating will be. It&#39;s easier to get loans, you get lower interest fees on them, and they often determine whether or not you get approved for a mortgage, an auto loan, or a credit card.
 
@@ -259,6 +297,8 @@ A credit card has been aquired! Ramses seems far too eager to use it, so you onl
 (if:$bank is false)[[Actually, now that you&#39;re thinking about odd stuff, how did he get a credit card without having a bank account first?|Go to a bank]]
 
 (if: $budget is false) [[Now that Ramses is dealing with credit, he definitely needs a budget!|Get budgeting]]
+
+(if: $loan is false) [[Considering his reaction to the credit card, a loan might not be the best idea. Still, you&#39;re seriously  considering it...|Take out a loan - easy money!]] 
 
 [[My work here is done.|the end]] 
 </tw-passagedata><tw-passagedata pid="19" name="Title Screen" tags="" position="725,0" size="100,100">&lt;div id=&quot;center-passage&quot;&gt; [WELCOME TO]
@@ -289,11 +329,11 @@ Ramses gamely hands over all his receipts for the past three months. Really, eve
 
 [[Ask Ramses]]
 
-[[Where the money was spent doesn&#39;t matter, we have to budget ASAP!|Back to Budgeting]]
+[[Where the money was spent doesn&#39;t matter, we have to budget ASAP!|Back to budgeting]]
 
 </tw-passagedata><tw-passagedata pid="22" name="Ask Ramses" tags="" position="1175,75" size="100,100">And the answer is.... wanton spending! Looks like Ramses got a little too swept up in the wave of Tar Heel pride and decided to fill his wardrobe with merch from the Student Stores! The equivalent of four years of tuition gone in a flash. Ramses, we love you and we know that blue is your color, but please keep a better eye on your money! 
 
-[[Back to Budgeting]]</tw-passagedata><tw-passagedata pid="23" name="Back to Budgeting" tags="" position="1025,0" size="100,100">Now that you have all the receipts, you help Ramses write down where he spent his money. Separating spendature into categories such as bills, groceries, and disposable income spending (i.e. the fun stuff) can keep you organized. After that, you should have a fair idea of where your money is going. Knowledge is power - when you know what your money is doing, you can manage it as easy as beating a certain college some ten miles down the road~
+[[Back to budgeting]]</tw-passagedata><tw-passagedata pid="23" name="Back to budgeting" tags="" position="1025,0" size="100,100">Now that you have all the receipts, you help Ramses write down where he spent his money. Separating spendature into categories such as bills, groceries, and disposable income spending (i.e. the fun stuff) can keep you organized. After that, you should have a fair idea of where your money is going. Knowledge is power - when you know what your money is doing, you can manage it as easy as beating a certain college some ten miles down the road~
 
 Ramses is old school and plans out his budget on paper, but there are many apps and websites to help out with that too. You know it&#39;s just a matter of finding what system works for you and sticking to it. 
 
